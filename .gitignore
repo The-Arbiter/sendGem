@@ -2,3 +2,4 @@
 /hevm.libs.*
 /cache
 .DS_Store
+/lib
