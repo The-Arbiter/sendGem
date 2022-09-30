@@ -6,7 +6,7 @@ set -e
 # shellcheck disable=SC1091
 source "./allow-optimize.sh"
 
-export FOUNDRY_OPTIMIZER=1
+export FOUNDRY_OPTIMIZER=true
 export FOUNDRY_OPTIMIZER_RUNS=200
 
 if [[ -z "$1" ]]; then

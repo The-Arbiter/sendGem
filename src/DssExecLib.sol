@@ -58,6 +58,7 @@ interface DssVat {
     function ilks(bytes32) external returns (uint256 Art, uint256 rate, uint256 spot, uint256 line, uint256 dust);
     function Line() external view returns (uint256);
     function suck(address, address, uint) external;
+    function dai(address) external view returns (uint256);
 }
 
 interface DssVow {
@@ -1115,12 +1116,12 @@ library DssExecLib {
         @return              Returns true on success TODO TODO TODO Do we want to remove this?
     */
     function sendGem(address _psm, address _target, uint256 _amount) external returns (bool){
-        require(_amount < getSurplusBufferSize()); // "LibDssExec/exceeds-surplus-buffer"
+       /*  require(_amount < getSurplusBufferSize()); // "LibDssExec/exceeds-surplus-buffer"
         //DssExecLib.sendPaymentFromSurplusBuffer(address(this), _amount); TODO @Brian are we keeping this in?
         address gem = AuthGemJoinLike(PsmLike(_psm).gemJoin()).gem();
         DaiLike(dai()).approve(_psm, _amount * WAD); 
         PsmLike(_psm).buyGem(address(this), _amount * (10 ** GemLike(gem).decimals())); 
-        GemLike(gem).transfer(_target, _amount * (10 ** GemLike(gem).decimals()));
+        GemLike(gem).transfer(_target, _amount * (10 ** GemLike(gem).decimals())); */
         return true; //TODO @Brian - no other function in this returns true on execution. Only OH does to read state. Delete this?
     }
     

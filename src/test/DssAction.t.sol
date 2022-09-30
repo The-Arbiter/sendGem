@@ -1236,10 +1236,10 @@ contract ActionTest is DSTest {
         assertEq(vat.sin(address(vow)), 100 * RAD);
     }
     function getSurplusBufferSize_test() public {
-        uint256 vow_dai = vat.dai(vow());
+        uint256 vow_dai = vat.dai(address(vow));
         uint256 vow_Sin = vow.Sin();
         uint256 buffer = action.getSurplusBufferSize_test();
-        assertEq(buffer, (vow_dai - vow_sin) / RAD);
+        assertEq(buffer, (vow_dai - vow_Sin) / RAD);
     }
     function sendGem_test() public { //TODO TODO TODO
         address target = address(this);
