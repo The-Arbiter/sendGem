@@ -1101,7 +1101,7 @@ library DssExecLib {
         JoinLike(daiJoin()).exit(_target, _amount * WAD);
     }
     /**
-        @dev Return the size of the surplus buffer, used by sendGem
+        @dev Returns the current size of the surplus buffer in DAI
         @return The size of the surplus buffer (ex. 75m == 75000000)
     */
     function getSurplusBufferSize() public returns (uint256){

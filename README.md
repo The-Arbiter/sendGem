@@ -260,6 +260,8 @@ DssExecLib.setChangelogAddress("MCD_CLIP_CALC_XMPL-A", xmpl_calc);
 
 ### Payments
 - `sendPaymentFromSurplusBuffer(address _target, uint256 _amount)`: Send a payment in ERC20 DAI from the surplus buffer.
+- `getSurplusBufferSize()`: Returns the current size of the surplus buffer in DAI.
+- `sendGem(address _psm_, address _target, uint256 _amount)`: Convert ERC20 DAI to a PSM's corresponding Gem token and send it to a target address.
 
 ### Misc
 
