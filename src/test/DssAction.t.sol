@@ -1235,6 +1235,20 @@ contract ActionTest is DSTest {
         assertEq(vat.dai(address(vow)), 0);
         assertEq(vat.sin(address(vow)), 100 * RAD);
     }
+    function getSurplusBufferSize_test() public {
+        uint256 vow_dai = vat.dai(vow());
+        uint256 vow_Sin = vow.Sin();
+        uint256 buffer = action.getSurplusBufferSize_test();
+        assertEq(buffer, (vow_dai - vow_sin) / RAD);
+    }
+    function sendGem_test() public { //TODO TODO TODO
+        address target = address(this);
+        // Call the above test
+        sendPaymentFromSurplusBuffer_test();
+
+        //action.sendGem_test() //TODO do we need to mock up a PSM and a joiner to do this?
+
+    }
 
     /************/
     /*** Misc ***/
