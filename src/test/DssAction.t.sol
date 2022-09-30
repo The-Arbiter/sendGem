@@ -60,12 +60,15 @@ import {GemJoin,DaiJoin}  from "dss/join.sol";
 import {End}              from "dss/end.sol";
 import {Spotter}          from "dss/spot.sol";
 import {Dai}              from "dss/dai.sol";
+import {DssPsm}           from "dss-psm/psm.sol";
 import {LinearDecrease,
         StairstepExponentialDecrease,
         ExponentialDecrease} from "dss/abaci.sol";
 
 import "../CollateralOpts.sol";
 import {DssTestAction, DssTestNoOfficeHoursAction}    from './DssTestAction.sol';
+
+
 
 interface Hevm {
     function warp(uint256) external;
@@ -111,6 +114,7 @@ contract ActionTest is DSTest {
     Cat         cat;
     Dai         daiToken;
     DaiJoin     daiJoin;
+    DssPsm      dssPsm;
 
     DSToken gov;
 
@@ -1242,14 +1246,33 @@ contract ActionTest is DSTest {
         assertEq(buffer, (vow_dai - vow_Sin) / RAD);
     }
     function sendGem_test() public { //TODO TODO TODO
+
+        // SETUP //
+
+        // Create a gem token
+        DSToken gem = new DSToken("Gem");
+        // Create a gem joiner
+        AuthGemJoin gemJoin = new AuthGemJoin(address(vat), ilk, address(gem));
+        // Create a PSM
+        dssPsm = new DssPsm(address(gemJoin),address(daiJoin),address(vow));
+
+        // Auth: Rely and stuff TODO
+
+        // Deposit a bunch of token into the PSM so we have somethng to buy
+        gem.mint(20 ether);
+        // 
+
+        // Mark this address as the target (to mimic send payment from SB test)
         address target = address(this);
         // Call the above test
         sendPaymentFromSurplusBuffer_test();
 
+        // Call the action
         //action.sendGem_test() //TODO do we need to mock up a PSM and a joiner to do this?
 
-    
+
         //TODO Asserts
+        
 
     }
 
