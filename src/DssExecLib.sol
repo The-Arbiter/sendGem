@@ -60,6 +60,10 @@ interface DssVat {
     function suck(address, address, uint) external;
 }
 
+interface DssVow {
+    function Sin() external returns (uint256);
+}
+
 interface ClipLike {
     function vat() external returns (address);
     function dog() external returns (address);
@@ -1096,6 +1100,30 @@ library DssExecLib {
         DssVat(vat()).suck(vow(), address(this), _amount * RAD);
         JoinLike(daiJoin()).exit(_target, _amount * WAD);
     }
+    /**
+        @dev Return the size of the surplus buffer, used by sendGem
+        @return The size of the surplus buffer (ex. 75m == 75000000)
+    */
+    function getSurplusBufferSize() public returns (uint256){
+        return (DssVat(vat()).dai(vow()) - DssVow(vow()).Sin()) / RAD;
+    }
+    /**
+        @dev Convert ERC20 DAI to a PSM's corresponding Gem token and send it to a target address
+        @param _psm          Address of the PSM instance we are referring to (not the joiner)
+        @param _target       Target address to receive the Gem
+        @param _amount       Amount of *Gem* token to be sent to the destination address 
+        @return              Returns true on success TODO TODO TODO Do we want to remove this?
+    */
+    function sendGem(address _psm, address _target, uint256 _amount) external returns (bool){
+        require(_amount < getSurplusBufferSize()); // "LibDssExec/exceeds-surplus-buffer"
+        //DssExecLib.sendPaymentFromSurplusBuffer(address(this), _amount); TODO @Brian are we keeping this in?
+        address gem = AuthGemJoinLike(PsmLike(_psm).gemJoin()).gem();
+        DaiLike(dai()).approve(_psm, _amount * WAD); 
+        PsmLike(_psm).buyGem(address(this), _amount * (10 ** GemLike(gem).decimals())); 
+        GemLike(gem).transfer(_target, _amount * (10 ** GemLike(gem).decimals()));
+        return true; //TODO @Brian - no other function in this returns true on execution. Only OH does to read state. Delete this?
+    }
+    
 
     /************/
     /*** Misc ***/
