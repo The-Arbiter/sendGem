@@ -357,6 +357,13 @@ contract DssTestAction is DssAction {
     function sendPaymentFromSurplusBuffer_test(address target, uint256 amount) public {
         DssExecLib.sendPaymentFromSurplusBuffer(target, amount);
     }
+    function getSurplusBufferSize_test() public returns (uint256) {
+        return DssExecLib.getSurplusBufferSize();
+    }
+    function sendGem_test(address psm, address target, uint256 amount) public {
+        DssExecLib.sendPaymentFromSurplusBuffer(address(this), amount);
+        DssExecLib.sendGem(psm, target, amount);
+    }
 
     /************/
     /*** Misc ***/
